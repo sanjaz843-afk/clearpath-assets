@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClearPath Digital — Tools for Freelancers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #2F3E34;
+    --sage: #7a9466;
+    --sand: #E8E5DF;
+    --sand-dark: #dedad2;
+    --dusty-rose: #D8A7B1;
+    --honey: #F2CC8F;
+    --white: #FDFCFA;
+    --forest-light: #3d5244;
+    --text-muted: rgba(47,62,52,0.55);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--sand);
+    color: var(--forest);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── PAPER TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.6;
+  }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--forest);
+    padding: 18px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(47,62,52,0.15);
+  }
+
+  .nav-brand {
+    font-family: 'DM Serif Display', serif;
+    color: var(--sand);
+    font-size: 1.2rem;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--sage);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 400;
+    transition: color 0.2s;
+    letter-spacing: 0.01em;
+  }
+
+  .nav-links a:hover { color: var(--honey); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    background-color: var(--sand);
+    padding: 0;
+    overflow: hidden;
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://raw.githubusercontent.com/sanjaz843-afk/clearpath-assets/main/hero.jpg');
+    background-size: cover;
+    background-position: center 30%;
+    z-index: 0;
+  }
+
+  .hero-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      rgba(232,229,223,0.97) 0%,
+      rgba(232,229,223,0.92) 40%,
+      rgba(232,229,223,0.55) 70%,
+      rgba(232,229,223,0.15) 100%
+    );
+  }
+
+  /* Decorative circle blobs */
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(163,177,138,0.12) 0%, transparent 70%);
+    top: -100px;
+    right: -100px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(242,204,143,0.1) 0%, transparent 70%);
+    bottom: -80px;
+    left: -60px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .hero-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    padding: 110px 48px 90px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero-content {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .hero-label {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 28px;
+    padding: 8px 20px;
+    border: 1px solid rgba(163,177,138,0.4);
+    border-radius: 100px;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+    line-height: 1.1;
+    color: var(--forest);
+    margin-bottom: 28px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--sage);
+  }
+
+  .hero-sub {
+    font-size: 1.08rem;
+    color: var(--forest);
+    opacity: 0.85;
+    max-width: 520px;
+    margin: 0 auto 48px;
+    line-height: 1.75;
+  }
+
+  .hero-cta-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+    display: inline-block;
+    background: var(--forest);
+    color: var(--sand);
+    padding: 17px 40px;
+    border-radius: 100px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(47,62,52,0.18);
+    letter-spacing: 0.01em;
+  }
+
+  .btn-primary:hover {
+    background: var(--forest-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(47,62,52,0.22);
+  }
+
+  .hero-note {
+    font-size: 0.82rem;
+    color: var(--forest);
+    opacity: 0.7;
+    letter-spacing: 0.02em;
+  }
+
+  /* Scroll indicator */
+  .scroll-hint {
+    margin-top: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.35;
+    animation: bounce 2s infinite;
+  }
+
+  .scroll-hint span {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--forest);
+  }
+
+  .scroll-arrow {
+    width: 1px;
+    height: 32px;
+    background: var(--forest);
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+
+  /* ── WAVY DIVIDER ── */
+  .wave-divider {
+    line-height: 0;
+    overflow: hidden;
+  }
+
+  .wave-divider svg {
+    display: block;
+    width: 100%;
+  }
+
+  /* ── FOR YOU ── */
+  .for-you {
+    background: var(--white);
+    padding: 90px 48px;
+    position: relative;
+  }
+
+  .for-you::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--honey), transparent);
+  }
+
+  .section-inner {
+    max-width: 660px;
+    margin: 0 auto;
+  }
+
+  .section-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+    color: var(--forest);
+    margin-bottom: 48px;
+    line-height: 1.2;
+  }
+
+  .checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 22px 0;
+    border-bottom: 1px solid rgba(163,177,138,0.2);
+    font-size: 1rem;
+    color: var(--forest);
+    line-height: 1.65;
+  }
+
+  .checklist li:last-child { border-bottom: none; }
+
+  .check-box {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    border: 1.5px solid var(--honey);
+    border-radius: 5px;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(242,204,143,0.1);
+  }
+
+  .check-box::after {
+    content: '✓';
+    color: var(--honey);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  /* ── PRODUCT BASE ── */
+  .product-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 100px;
+  }
+
+  .product-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+    line-height: 1.1;
+    margin-bottom: 18px;
+    letter-spacing: -0.01em;
+  }
+
+  .product-desc {
+    font-size: 1.02rem;
+    line-height: 1.75;
+    opacity: 0.75;
+    margin-bottom: 8px;
+  }
+
+  .feature-list {
+    list-style: none;
+    margin: 32px 0 40px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .feature-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(163,177,138,0.18);
+    font-size: 0.96rem;
+    line-height: 1.6;
+  }
+
+  .feature-list li:last-child { border-bottom: none; }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    min-width: 7px;
+    border-radius: 50%;
+    margin-top: 7px;
+  }
+
+  /* ── TRACKFIRST ── */
+  .trackfirst {
+    background: var(--sand);
+    padding: 90px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .trackfirst-deco {
+    position: absolute;
+    right: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    border: 1px solid rgba(163,177,138,0.2);
+    pointer-events: none;
+  }
+
+  .trackfirst-deco::after {
+    content: '';
+    position: absolute;
+    inset: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(163,177,138,0.15);
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .two-col-reverse {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .section-photo {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 48px rgba(47,62,52,0.12);
+    aspect-ratio: 4/5;
+  }
+
+  .section-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: var(--sand);
+    display: block;
+    transition: transform 0.6s ease;
+  }
+
+  .section-photo:hover img {
+    transform: scale(1.02);
+  }
+
+  .section-photo-forest {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 48px rgba(47,62,52,0.25);
+    aspect-ratio: 3/4;
+    position: relative;
+  }
+
+  .section-photo-forest img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #1a2b1e;
+    display: block;
+    filter: brightness(0.85) saturate(0.9);
+  }
+
+  .trackfirst .product-label {
+    background: rgba(163,177,138,0.15);
+    color: var(--sage);
+  }
+
+  .trackfirst .product-title { color: var(--forest); }
+  .trackfirst .product-desc { color: var(--forest); }
+  .trackfirst .feature-list li { color: var(--forest); }
+  .trackfirst .dot { background: var(--honey); }
+
+  /* ── FREELANCECLARITY ── */
+  .freelanceclarity {
+    background: var(--forest);
+    padding: 90px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .freelanceclarity::before {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(163,177,138,0.08) 0%, transparent 65%);
+    top: -200px;
+    right: -150px;
+    pointer-events: none;
+  }
+
+  .freelanceclarity .product-label {
+    background: rgba(242,204,143,0.15);
+    color: var(--honey);
+  }
+
+  .freelanceclarity .product-title { color: var(--sand); }
+
+  .fc-hook {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--sand);
+    opacity: 0.8;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .freelanceclarity .product-desc { color: var(--sand); }
+  .freelanceclarity .feature-list li { color: var(--sand); border-bottom-color: rgba(232,229,223,0.1); }
+  .freelanceclarity .dot { background: var(--sage); }
+
+  /* This Week highlight card */
+  .tw-card {
+    background: var(--honey);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin: 32px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tw-card::before {
+    content: '';
+    position: absolute;
+    right: -20px;
+    top: -20px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(47,62,52,0.06);
+  }
+
+  .tw-card-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--forest);
+    opacity: 0.5;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .tw-card p {
+    font-size: 0.98rem;
+    color: var(--forest);
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  .btn-honey {
+    display: inline-block;
+    background: var(--honey);
+    color: var(--forest);
+    padding: 17px 40px;
+    border-radius: 100px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(242,204,143,0.3);
+    letter-spacing: 0.01em;
+  }
+
+  .btn-honey:hover {
+    opacity: 0.92;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(242,204,143,0.4);
+  }
+
+  .btn-sub {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--sand);
+    opacity: 0.4;
+    margin-top: 14px;
+  }
+
+  .fc-disclaimer {
+    font-size: 0.84rem;
+    color: var(--sand);
+    opacity: 0.38;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(232,229,223,0.1);
+    line-height: 1.6;
+  }
+
+  /* ── PRO ── */
+  .pro {
+    background: var(--white);
+    padding: 90px 48px;
+    position: relative;
+  }
+
+  .pro::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--dusty-rose), transparent);
+  }
+
+  .pro .product-label {
+    background: rgba(216,167,177,0.15);
+    color: var(--dusty-rose);
+  }
+
+  .pro .product-title {
+    color: var(--forest);
+    opacity: 0.45;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  }
+
+  .pro .product-desc {
+    color: var(--forest);
+    opacity: 0.45;
+  }
+
+  .waitlist-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--forest);
+    opacity: 0.5;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(47,62,52,0.25);
+    padding-bottom: 2px;
+    transition: opacity 0.2s;
+  }
+
+  .waitlist-link:hover { opacity: 0.85; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--forest);
+    padding: 48px 48px;
+  }
+
+  .footer-inner {
+    max-width: 660px;
+    margin: 0 auto;
+  }
+
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(163,177,138,0.2);
+    margin-bottom: 28px;
+  }
+
+  .footer-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--sand);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .footer-brand-sub {
+    font-size: 0.82rem;
+    color: var(--sage);
+    font-style: italic;
+    opacity: 0.7;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    color: var(--sage);
+    text-decoration: none;
+    font-size: 0.88rem;
+    transition: color 0.2s;
+    opacity: 0.8;
+  }
+
+  .footer-links a:hover { color: var(--honey); opacity: 1; }
+
+  .footer-bottom {
+    font-size: 0.78rem;
+    color: var(--sage);
+    opacity: 0.4;
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 640px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+
+    .hero-inner { padding: 72px 24px 64px; }
+    .for-you, .trackfirst, .freelanceclarity, .pro { padding: 72px 24px; }
+    footer { padding: 48px 24px; }
+
+    .two-col, .two-col-reverse {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .two-col .section-photo { order: -1; aspect-ratio: 16/9; }
+    .two-col-reverse .section-photo-forest { order: -1; aspect-ratio: 16/9; }
+
+    .footer-top { flex-direction: column; gap: 24px; }
+    .tw-card { padding: 22px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">ClearPath Digital</a>
+  <ul class="nav-links">
+    <li><a href="#trackfirst">TrackFirst — Free</a></li>
+    <li><a href="#freelanceclarity">FreelanceClarity — $9</a></li>
+    <li><a href="#pro">Pro Tracker</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-photo"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="reveal">
+        <span class="hero-label">Digital tools and templates for freelancers who want clarity without the chaos</span>
+      </div>
+      <h1 class="reveal reveal-delay-1">
+        You have clients.<br>
+        You just can't see<br>
+        <em>the full picture.</em>
+      </h1>
+      <p class="hero-sub reveal reveal-delay-2">
+        Simple, offline tools for freelancers who want clarity without subscriptions, complex setups, or tools built for agencies.
+      </p>
+      <div class="hero-cta-wrap reveal reveal-delay-3">
+        <a href="https://onepropertyhost.gumroad.com/l/trackfirst" class="btn-primary" target="_blank" style="display:inline-block;background:#2F3E34;color:#E8E5DF;padding:17px 40px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;text-decoration:none;letter-spacing:0.01em;">
+          Start free — download TrackFirst
+        </a>
+        <span class="hero-note">No signup. No subscription. Free forever.</span>
+      </div>
+      <div class="scroll-hint reveal reveal-delay-4">
+        <span>scroll</span>
+        <div class="scroll-arrow"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOR YOU -->
+<section class="for-you">
+  <div class="section-inner">
+    <span class="section-eyebrow reveal">Sound familiar?</span>
+    <h2 class="section-title reveal reveal-delay-1">This is for you if...</h2>
+    <ul class="checklist">
+      <li class="reveal reveal-delay-1">
+        <span class="check-box"></span>
+        You just got your first 1–3 clients and you're tracking everything in your head
+      </li>
+      <li class="reveal reveal-delay-2">
+        <span class="check-box"></span>
+        You have 3–5 clients and you keep missing follow-ups or forgetting what's next
+      </li>
+      <li class="reveal reveal-delay-3">
+        <span class="check-box"></span>
+        You've tried Notion, Trello, or a CRM — and went back to a notes app because it was too much
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- TRACKFIRST -->
+<section class="trackfirst" id="trackfirst">
+  <div class="trackfirst-deco"></div>
+  <div class="two-col">
+    <div class="section-photo reveal">
+      <img src="https://raw.githubusercontent.com/sanjaz843-afk/clearpath-assets/main/trackFirst.jpg" alt="Freelancer working at desk" loading="lazy">
+    </div>
+    <div class="section-inner" style="max-width:100%;">
+      <span class="product-label reveal">FREE — Start here</span>
+      <h2 class="product-title reveal reveal-delay-1">TrackFirst</h2>
+      <p class="product-desc reveal reveal-delay-2">
+        A single-tab Google Sheets tracker for freelancers with 1–3 clients. Track tasks, deadlines, and status — with color coding that updates automatically. No setup. No subscription. Free forever.
+      </p>
+      <ul class="feature-list">
+        <li class="reveal reveal-delay-1"><span class="dot"></span>Task and deadline tracking in one tab</li>
+        <li class="reveal reveal-delay-2"><span class="dot"></span>Automatic color coding — red, yellow, green by due date</li>
+        <li class="reveal reveal-delay-3"><span class="dot"></span>Status dropdown — In Progress, Done, Waiting</li>
+        <li class="reveal reveal-delay-4"><span class="dot"></span>Instant access via Google Sheets — nothing to install</li>
+      </ul>
+      <div class="reveal">
+        <a href="https://onepropertyhost.gumroad.com/l/trackfirst" class="btn-primary" target="_blank" style="display:inline-block;background:#2F3E34;color:#E8E5DF;padding:17px 40px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;text-decoration:none;letter-spacing:0.01em;">Download free</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FREELANCECLARITY -->
+<section class="freelanceclarity" id="freelanceclarity">
+  <div class="two-col-reverse" style="max-width:1000px; margin:0 auto;">
+    <div class="section-inner" style="max-width:100%;">
+      <span class="product-label reveal">$9 — one time</span>
+      <h2 class="product-title reveal reveal-delay-1">FreelanceClarity</h2>
+      <p class="fc-hook reveal reveal-delay-2">"Do you know which client needs your attention right now?"</p>
+      <p class="product-desc reveal reveal-delay-2">
+        A 5-tab Google Sheets client tracker for freelancers with 1–5 clients. Built around one idea: open one file and immediately know what to do next.
+      </p>
+
+      <div class="tw-card reveal reveal-delay-3">
+        <span class="tw-card-label">Key feature</span>
+        <p>This Week view updates in real time — not just in the morning, but every time you edit any entry. No manual refresh. No formulas to set up. Just open it and see what needs attention today.</p>
+      </div>
+
+      <ul class="feature-list">
+        <li class="reveal reveal-delay-1"><span class="dot"></span>My Clients tab — all your clients, projects, and status in one view</li>
+        <li class="reveal reveal-delay-2"><span class="dot"></span>This Week tab — auto-filtered to show only what's urgent or due soon</li>
+        <li class="reveal reveal-delay-3"><span class="dot"></span>Notes tab — client-specific notes so nothing gets lost in email threads</li>
+        <li class="reveal reveal-delay-4"><span class="dot"></span>Customize tab — adjust colors, labels, and status options to fit your workflow</li>
+        <li class="reveal reveal-delay-4"><span class="dot"></span>Start Here tab — plain-English instructions, no guessing</li>
+      </ul>
+
+      <div class="reveal">
+        <a href="https://onepropertyhost.gumroad.com/l/freelanceclarity" class="btn-honey" target="_blank" style="display:inline-block;background:#F2CC8F;color:#2F3E34;padding:17px 40px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:600;text-decoration:none;letter-spacing:0.01em;">Get FreelanceClarity — $9</a>
+        <span class="btn-sub">One-time payment. Yours forever. No subscription.</span>
+      </div>
+
+      <p class="fc-disclaimer reveal">
+        FreelanceClarity does not track invoices or payments. If you need financial tracking, ClearPath Pro is the next step.
+      </p>
+    </div>
+    <div class="section-photo-forest reveal reveal-delay-2">
+      <img src="https://raw.githubusercontent.com/sanjaz843-afk/clearpath-assets/main/freelanceclarity.jpg" alt="Freelancer organized at desk" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- PRO -->
+<section class="pro" id="pro">
+  <div class="section-inner">
+    <span class="product-label reveal">Coming soon</span>
+    <h2 class="product-title reveal reveal-delay-1">ClearPath Pro Tracker</h2>
+    <p class="product-desc reveal reveal-delay-2">
+      For freelancers with 5+ clients who need more than task tracking — invoices, pipeline value, a dashboard that shows the full financial picture. Built on the same Google Sheets foundation. No new tools to learn.
+    </p>
+    <a href="mailto:clearpathdigi1@gmail.com" class="waitlist-link reveal reveal-delay-3">
+      Join the waitlist →
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <span class="footer-brand">ClearPath Digital</span>
+        <span class="footer-brand-sub">Clarity before chaos wins.</span>
+      </div>
+      <ul class="footer-links">
+        <li><a href="https://onepropertyhost.gumroad.com/l/trackfirst" target="_blank">TrackFirst</a></li>
+        <li><a href="https://onepropertyhost.gumroad.com/l/freelanceclarity" target="_blank">FreelanceClarity</a></li>
+        <li><a href="https://www.youtube.com/@ClearPathDigital-e1c" target="_blank">YouTube</a></li>
+      </ul>
+    </div>
+    <p class="footer-bottom">© 2025 ClearPath Digital · Tools for freelancers who want clarity, not complexity.</p>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal — works on local files and server
+  const reveals = document.querySelectorAll('.reveal');
+
+  function checkVisibility() {
+    reveals.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.92) {
+        el.classList.add('visible');
+      }
+    });
+  }
+
+  // Run on load and scroll
+  window.addEventListener('scroll', checkVisibility, { passive: true });
+  window.addEventListener('resize', checkVisibility, { passive: true });
+
+  // Initial check with small delay for render
+  setTimeout(checkVisibility, 100);
+
+  // Immediately show hero elements
+  document.querySelectorAll('.hero .reveal').forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), 100 + i * 120);
+  });
+</script>
+</body>
+</html>
