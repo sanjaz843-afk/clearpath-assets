@@ -765,6 +765,102 @@
     .footer-top { flex-direction: column; gap: 24px; }
     .tw-card { padding: 22px 20px; }
   }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials {
+    background: var(--sand);
+    padding: 80px 48px;
+    position: relative;
+  }
+
+  .testimonials::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--honey), transparent);
+  }
+
+  .testimonials-inner {
+    max-width: 660px;
+    margin: 0 auto;
+  }
+
+  .testimonials-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .testimonials h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: var(--forest);
+    margin-bottom: 48px;
+  }
+
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .testimonial-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 28px 28px 24px;
+    position: relative;
+    border: 1px solid rgba(163,177,138,0.2);
+  }
+
+  .testimonial-card::before {
+    content: '"';
+    font-family: 'DM Serif Display', serif;
+    font-size: 4rem;
+    color: var(--honey);
+    position: absolute;
+    top: 8px;
+    left: 20px;
+    line-height: 1;
+    opacity: 0.6;
+  }
+
+  .testimonial-text {
+    font-size: 0.95rem;
+    color: var(--forest);
+    line-height: 1.7;
+    margin-bottom: 20px;
+    margin-top: 24px;
+    font-style: italic;
+  }
+
+  .testimonial-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .testimonial-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--forest);
+  }
+
+  .testimonial-product {
+    font-size: 0.78rem;
+    color: var(--sage);
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 640px) {
+    .testimonial-grid { grid-template-columns: 1fr; }
+    .testimonials { padding: 72px 24px; }
+  }
+
 </style>
 </head>
 <body>
@@ -892,6 +988,31 @@
     </div>
     <div class="section-photo-forest reveal reveal-delay-2">
       <img src="https://raw.githubusercontent.com/sanjaz843-afk/clearpath-assets/main/freelanceclarity.jpg" alt="Freelancer organized at desk" loading="lazy">
+    </div>
+  </div>
+</section>
+
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="testimonials-inner">
+    <span class="testimonials-eyebrow reveal">What freelancers are saying</span>
+    <h2 class="reveal reveal-delay-1">Real results, simple systems.</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card reveal reveal-delay-1">
+        <p class="testimonial-text">I just started freelancing, so everything felt a bit chaotic at first. This spreadsheet helped me organize my clients, deadlines, and follow-ups in a way that actually feels manageable. Simple but really helpful.</p>
+        <div class="testimonial-footer">
+          <span class="testimonial-name">Ana M.</span>
+          <span class="testimonial-product">TrackFirst — Free</span>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-2">
+        <p class="testimonial-text">I've tried a few client trackers before, but this is the first one I've actually kept using. It's simple, clean, and the 'This Week' tab makes it really easy to see what I need to do next without overthinking everything.</p>
+        <div class="testimonial-footer">
+          <span class="testimonial-name">Sarah K.</span>
+          <span class="testimonial-product">FreelanceClarity — $9</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
